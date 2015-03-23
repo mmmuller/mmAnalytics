@@ -1,0 +1,2 @@
+# mmProps
+Config project generator
