@@ -64,6 +64,17 @@ var app             =         express();
     });
   });
 
+  app.get('/logs.eventType.graph',function(req,res){
+    connection.query("SELECT EVENT_TYPE, count(*) as COUNT FROM logs group by EVENT_TYPE",function(err,rows, fields){
+      if(err) {
+        console.log("Problem with MySQL"+err);
+      }
+      else {
+        res.end(JSON.stringify({header : getHeader(fields), rows : rows}));
+      }
+    });
+  });
+
 /*
   * Start the Express Web Server.
   */

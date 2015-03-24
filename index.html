@@ -16,24 +16,32 @@
 <body>
   <div id="container" ng-app='mm' ng-controller='logs_ctrl'>
 
-    <button class="btn btn-default export-btn" ng-click='exportCsv($event, "test.csv");'>Export</button>
-    <button class="btn btn-default export-btn" ng-show='paginationIsEnabled()' ng-click='disablePagination();'>Disable pagination</button>
-    <button class="btn btn-default export-btn" ng-show="!paginationIsEnabled()" ng-click='enablePagination();'>Enable pagination</button>
-    
-    <table ng-table="tableParams" class="table table-striped" export-csv="helper.csv">
-      <tr>
-        <th ng-repeat="column in logs.header" >{{column}}</th>
-      </tr>
-
-      <tr ng-repeat="row in $data" >
-        <td ng-repeat="column in logs.header" >{{row[column]}}</td>
-      </tr>
-    </table>
-
     Quantity of users logs
-    <div google-chart chart="chart"
+    <div google-chart chart="userGraph"
     style="border:1px inset black;padding:0;width:400px">
   </div>
+
+  Quantity of event type logs
+  <div google-chart chart="eventTypeGraph"
+  style="border:1px inset black;padding:0;width:400px">
+</div>
+
+
+<button class="btn btn-default export-btn" ng-click='exportCsv($event, "test.csv");'>Export</button>
+<button class="btn btn-default export-btn" ng-show='paginationIsEnabled()' ng-click='disablePagination();'>Disable pagination</button>
+<button class="btn btn-default export-btn" ng-show="!paginationIsEnabled()" ng-click='enablePagination();'>Enable pagination</button>
+
+<table ng-table="tableParams" class="table table-striped" export-csv="helper.csv">
+  <tr>
+    <th ng-repeat="column in logs.header" >{{column}}</th>
+  </tr>
+
+  <tr ng-repeat="row in $data" >
+    <td ng-repeat="column in logs.header" >{{row[column]}}</td>
+  </tr>
+</table>
+
+
 </div>
 </body>
 </html>

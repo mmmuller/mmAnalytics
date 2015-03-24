@@ -82,6 +82,15 @@ app.controller('logs_ctrl',function($scope,$http,$interval,ngTableParams){
 		return count != 9999999;
 	}
 
+	var clone = function(obj) {
+    if(obj == null || typeof(obj) != 'object')
+        return obj;    
+    var temp = new obj.constructor(); 
+    for(var key in obj)
+        temp[key] = clone(obj[key]);    
+    return temp;
+}
+
 	$http.get('http://localhost:3000/logs').success(function(data){    
 		$scope.logs=data;
 		initTableData();
@@ -94,9 +103,19 @@ app.controller('logs_ctrl',function($scope,$http,$interval,ngTableParams){
 		angular.forEach(data.rows, function(value) {
 			tab.push([String(value[Object.keys(value)[0]]), value[Object.keys(value)[1]]])
 		});
-		$scope.chart.data = tab;
+		$scope.userGraph = clone($scope.chart);
+		$scope.userGraph.data = tab;
 	});
 
-
+	$http.get('http://localhost:3000/logs.eventType.graph').success(function(data){ 
+		var tab = [];   
+		tab.push(["Component","cost"]);
+		$scope.logsUserGraph=data;
+		angular.forEach(data.rows, function(value) {
+			tab.push([String(value[Object.keys(value)[0]]), value[Object.keys(value)[1]]])
+		});
+		$scope.eventTypeGraph = clone($scope.chart);
+		$scope.eventTypeGraph.data = tab;
+	});
 
 });
