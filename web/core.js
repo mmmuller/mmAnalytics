@@ -1,18 +1,20 @@
-app.controller('logs_ctrl',function($scope,$http,$interval, ngTableParams){
+app.controller('logs_ctrl',function($scope,$http,$interval,ngTableParams){
 
-	 $scope.helper = {
-      csv: null //will be replaced by the export directive
-    };
+	var count = 10;
+	var saveCount = 0;
+
+	$scope.helper = {
+	};
 
 	$scope.exportCsv = function($event, fileName) {
-      $scope.helper.csv.generate($event, "report.csv");
-      location.href=$scope.helper.csv.link();
-    };
+		$scope.helper.csv.generate($event, "report.csv");
+		location.href=$scope.helper.csv.link();
+	};
 
 	var initTableData = function(){
 		$scope.tableParams = new ngTableParams({
                 page: 1,            // show first page
-                count: 10          // count per page
+                count: count          // count per page
 
             }, {
                 total: $scope.logs.rows.length, // length of data
@@ -20,6 +22,21 @@ app.controller('logs_ctrl',function($scope,$http,$interval, ngTableParams){
                 	$defer.resolve($scope.logs.rows.slice((params.page() - 1) * params.count(), params.page() * params.count()));
                 }
             });
+	}
+
+	$scope.disablePagination = function() {
+		saveCount = count;
+		count = 9999999;
+		initTableData();
+	}
+
+	$scope.enablePagination = function() {
+		count = saveCount;
+		initTableData();
+	}
+
+	$scope.paginationIsEnabled = function() {
+		return count != 9999999;
 	}
 
 
