@@ -8,13 +8,15 @@
   <script src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
   <script src="lib/angular/angular.js"></script>
   <script src="lib/ng-table/dist/ng-table.js"></script>
+  <script src="lib/ng-table-export/ng-table-export.js"></script>
   <script src="app.js"></script>
   <script src="core.js"></script>
 </head>
 <body>
   <div id="container" ng-app='mm' ng-controller='logs_ctrl'>
 
-    <table ng-table="tableParams" class="table table-striped">
+    <button class="btn btn-default export-btn" ng-click='exportCsv($event, "test.csv");'>Export</button>
+    <table ng-table="tableParams" class="table table-striped" export-csv="helper.csv">
       <tr>
         <th ng-repeat="column in logs.header" >{{column}}</th>
       </tr>

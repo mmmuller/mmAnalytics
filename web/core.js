@@ -1,5 +1,14 @@
 app.controller('logs_ctrl',function($scope,$http,$interval, ngTableParams){
 
+	 $scope.helper = {
+      csv: null //will be replaced by the export directive
+    };
+
+	$scope.exportCsv = function($event, fileName) {
+      $scope.helper.csv.generate($event, "report.csv");
+      location.href=$scope.helper.csv.link();
+    };
+
 	var initTableData = function(){
 		$scope.tableParams = new ngTableParams({
                 page: 1,            // show first page
@@ -17,7 +26,7 @@ app.controller('logs_ctrl',function($scope,$http,$interval, ngTableParams){
 
 	load_data();
 	$interval(function(){
-		load_pictures();
+		load_data();
 	},30000);
 	function load_data(){
 		$http.get('http://localhost:3000/logs').success(function(data){    
