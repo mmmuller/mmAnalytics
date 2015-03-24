@@ -6,6 +6,49 @@ app.controller('logs_ctrl',function($scope,$http,$interval,ngTableParams){
 	$scope.helper = {
 	};
 
+	$scope.chart = {
+		"type": "PieChart",
+		"data": [
+		[
+		"Component",
+		"cost"
+		],
+		[
+		"Software",
+		100000
+		],
+		[
+		"Hardware",
+		100000
+		],
+		[
+		"Services",
+		100000
+		]
+		],
+		"options": {
+			"displayExactValues": true,
+			"width": 600,
+			"height": 300,
+			"is3D": true,
+			"chartArea": {
+				"left": 10,
+				"top": 10,
+				"bottom": 0,
+				"height": "100%"
+			}
+		},
+		"formatters": {
+			"number": [
+			{
+				"columnNum": 1,
+				"pattern": "$ #,##0.00"
+			}
+			]
+		},
+		"displayed": true
+	}
+
 	$scope.exportCsv = function($event, fileName) {
 		$scope.helper.csv.generate($event, "report.csv");
 		location.href=$scope.helper.csv.link();
@@ -39,16 +82,21 @@ app.controller('logs_ctrl',function($scope,$http,$interval,ngTableParams){
 		return count != 9999999;
 	}
 
+	$http.get('http://localhost:3000/logs').success(function(data){    
+		$scope.logs=data;
+		initTableData();
+	});
 
-
-	load_data();
-	$interval(function(){
-		load_data();
-	},30000);
-	function load_data(){
-		$http.get('http://localhost:3000/logs').success(function(data){    
-			$scope.logs=data;
-			initTableData();
+	$http.get('http://localhost:3000/logs.user.graph').success(function(data){ 
+		var tab = [];   
+		tab.push(["Component","cost"]);
+		$scope.logsUserGraph=data;
+		angular.forEach(data.rows, function(value) {
+			tab.push([String(value[Object.keys(value)[0]]), value[Object.keys(value)[1]]])
 		});
-	};
+		$scope.chart.data = tab;
+	});
+
+
+
 });

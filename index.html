@@ -9,6 +9,7 @@
   <script src="lib/angular/angular.js"></script>
   <script src="lib/ng-table/dist/ng-table.js"></script>
   <script src="lib/ng-table-export/ng-table-export.js"></script>
+  <script src="lib/angular-google-chart/ng-google-chart.js"></script>
   <script src="app.js"></script>
   <script src="core.js"></script>
 </head>
@@ -29,6 +30,10 @@
       </tr>
     </table>
 
+    Quantity of users logs
+    <div google-chart chart="chart"
+    style="border:1px inset black;padding:0;width:400px">
   </div>
+</div>
 </body>
 </html>

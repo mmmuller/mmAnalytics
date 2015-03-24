@@ -8,7 +8,7 @@ var app             =         express();
   var connection      =         mysql.createConnection({
     host        :         "localhost",
     user        :         "epk_stats",
-    password    :         "quuiVeim",
+    password    :         "",
     database     :         "epk_stats"
   });
 
@@ -35,25 +35,34 @@ var app             =         express();
   });
 
   app.get('/logs',function(req,res){
-   this.getHeader = function(fields) {
-    var header = [];
-    for (var i = 0, len = fields.length; i < len; i++) {
-      header.push(fields[i].name);
+    this.getHeader = function(fields) {
+      var header = [];
+      for (var i = 0, len = fields.length; i < len; i++) {
+        header.push(fields[i].name);
+      }
+      return header;
     }
-    return header;
-  }
 
-  connection.query("SELECT * FROM logs",function(err,rows, fields){
-    if(err)
-    {
-      console.log("Problem with MySQL"+err);
-    }
-    else
-    {
-      res.end(JSON.stringify({header : getHeader(fields), rows : rows}));
-    }
+    connection.query("SELECT * FROM logs",function(err,rows, fields){
+      if(err) {
+        console.log("Problem with MySQL"+err);
+      }
+      else {
+        res.end(JSON.stringify({header : getHeader(fields), rows : rows}));
+      }
+    });
   });
-});
+
+  app.get('/logs.user.graph',function(req,res){
+    connection.query("SELECT USER_ID, count(*) as COUNT FROM logs group by USER_ID",function(err,rows, fields){
+      if(err) {
+        console.log("Problem with MySQL"+err);
+      }
+      else {
+        res.end(JSON.stringify({header : getHeader(fields), rows : rows}));
+      }
+    });
+  });
 
 /*
   * Start the Express Web Server.
