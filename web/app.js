@@ -1,1 +1,1 @@
-var app=angular.module('mm',[]);
+var app=angular.module('mm',['ngTable']);
