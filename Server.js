@@ -1,27 +1,26 @@
 var express         =         require("express");
 var mysql           =         require("mysql");
 var app             =         express();
+var mmProps         =         require("mmProps");
 
-/*
-  * Configure MySQL parameters.
-  */
-  var connection      =         mysql.createConnection({
-    host        :         "localhost",
-    user        :         "epk_stats",
-    password    :         "",
-    database     :         "epk_stats"
-  });
 
-  connection.connect(function(error){
-    if(error)
-    {
-      console.log("Problem with MySQL"+error);
-    }
-    else
-    {
-      console.log("Connected with Database");
-    }
-  });
+mmProps.set("Database host", "localhost", "db:host");
+mmProps.set("Database user", "epk_stats", "db:user");
+mmProps.set("Database password", "xxxx", "db:password");
+mmProps.set("Database database", "epk_stats", "db:database");
+
+var connection = mysql.createConnection(mmProps.get("db"));
+
+connection.connect(function(error){
+  if(error)
+  {
+    console.log("Problem with MySQL"+error);
+  }
+  else
+  {
+    console.log("Connected with Database");
+  }
+});
 
 /*
   * Configure Express Server.
