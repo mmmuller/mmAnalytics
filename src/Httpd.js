@@ -5,12 +5,14 @@ var mmProps = require("mmProps");
 var db = require("./db");
 
 var returnDBQuery = function(res, err,rows, fields) {
-  if(err) {
-    console.log("Problem with MySQL"+err);
-  }
-  else {
-    res.end(JSON.stringify({header : getHeader(fields), rows : rows}));
-  }
+  err ? console.log("Problem with MySQL"+err): res.end(JSON.stringify({header : getHeader(fields), rows : rows}));  
+}
+
+var getHeader = function(fields) {
+  var header = [];
+  for (var i = 0, len = fields.length; i < len; i++) 
+    header.push(fields[i].name);
+  return header;
 }
 
 module.exports = {
@@ -30,22 +32,9 @@ module.exports = {
     });
 
     app.get('/logs',function(req,res){
-      this.getHeader = function(fields) {
-        var header = [];
-        for (var i = 0, len = fields.length; i < len; i++) {
-          header.push(fields[i].name);
-        }
-        return header;
-      }
-
       connection.query("SELECT * FROM logs",function(err,rows, fields){
-        if(err) {
-          console.log("Problem with MySQL"+err);
-        }
-        else {
-          res.end(JSON.stringify({header : getHeader(fields), rows : rows}));
-        }
-      });
+       returnDBQuery(res, err,rows, fields);
+     });
     });
 
     app.get('/logs.user.graph',function(req,res){
@@ -56,21 +45,13 @@ module.exports = {
 
     app.get('/logs.eventType.graph',function(req,res){
       connection.query("SELECT EVENT_TYPE, count(*) as COUNT FROM logs group by EVENT_TYPE",function(err,rows, fields){
-        if(err) {
-          console.log("Problem with MySQL"+err);
-        }
-        else {
-          res.end(JSON.stringify({header : getHeader(fields), rows : rows}));
-        }
-      });
+       returnDBQuery(res, err,rows, fields);
+     });
     });
 
-/*
-  * Start the Express Web Server.
-  */
-  app.listen(mmProps.get("httpd:port"),function(){
-    console.log("It's Started on PORT " + mmProps.get("httpd:port"));
-  });
-}
+    app.listen(mmProps.get("httpd:port"),function(){
+      console.log("It's Started on PORT " + mmProps.get("httpd:port"));
+    });
+  }
 
 };
