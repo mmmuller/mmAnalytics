@@ -7,41 +7,25 @@
   <script src="lib/jquery/dist/jquery.min.js"></script>
   <script src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
   <script src="lib/angular/angular.js"></script>
+  <script src="lib/angular-route/angular-route.js"></script>
   <script src="lib/ng-table/dist/ng-table.js"></script>
   <script src="lib/ng-table-export/ng-table-export.js"></script>
   <script src="lib/angular-google-chart/ng-google-chart.js"></script>
   <script src="app.js"></script>
   <script src="core.js"></script>
+
+  <script src="welcome/welcome.js"></script>
+  <script src="logs/logs.js"></script>
 </head>
-<body>
-  <div id="container" ng-app='mm' ng-controller='logs_ctrl'>
+<body ng-app='app'>
 
-    Quantity of users logs
-    <div google-chart chart="userGraph"
-    style="border:1px inset black;padding:0;width:400px">
-  </div>
+ <ul class="nav nav-pills">
+  <li class="active"><a href="#/welcome">Home</a></li>
+  <li><a href="#/logs">All logs</a></li>
+  <li><a href="#">Menu 2</a></li>
+  <li><a href="#">Menu 3</a></li>
+</ul>
 
-  Quantity of event type logs
-  <div google-chart chart="eventTypeGraph"
-  style="border:1px inset black;padding:0;width:400px">
-</div>
-
-
-<button class="btn btn-default export-btn" ng-click='exportCsv($event, "test.csv");'>Export</button>
-<button class="btn btn-default export-btn" ng-show='paginationIsEnabled()' ng-click='disablePagination();'>Disable pagination</button>
-<button class="btn btn-default export-btn" ng-show="!paginationIsEnabled()" ng-click='enablePagination();'>Enable pagination</button>
-
-<table ng-table="tableParams" class="table table-striped" export-csv="helper.csv">
-  <tr>
-    <th ng-repeat="column in logs.header" >{{column}}</th>
-  </tr>
-
-  <tr ng-repeat="row in $data" >
-    <td ng-repeat="column in logs.header" >{{row[column]}}</td>
-  </tr>
-</table>
-
-
-</div>
+<div ng-view></div>
 </body>
 </html>

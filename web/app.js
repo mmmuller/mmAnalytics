@@ -1,1 +1,1 @@
-var app=angular.module('mm',['ngTable', 'ngTableExport', 'googlechart']);
+var app=angular.module('app',['ngRoute', 'ngTable', 'ngTableExport', 'googlechart', 'welcome', 'logs']);

@@ -118,4 +118,6 @@ app.controller('logs_ctrl',function($scope,$http,$interval,ngTableParams){
 		$scope.eventTypeGraph.data = tab;
 	});
 
+	
+
 });
