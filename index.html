@@ -4,6 +4,7 @@
   <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap-theme.min.css">
   <link rel="stylesheet" href="lib/ng-table/dist/ng-table.min.css">
+  <link rel="stylesheet" href="lib/ngprogress/ngProgress.css">
   <script src="lib/jquery/dist/jquery.min.js"></script>
   <script src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
   <script src="lib/angular/angular.js"></script>
@@ -13,17 +14,25 @@
   <script src="lib/angular-google-chart/ng-google-chart.js"></script>
   <script src="app.js"></script>
   <script src="core.js"></script>
+  <script src="lib/ngprogress/build/ngProgress.js"></script>
 
   <script src="welcome/welcome.js"></script>
   <script src="logs/logs.js"></script>
+  <script src="applyForm/applyForm.js"></script>
+  <script src="deliveryFiction/deliveryFiction.js"></script>
+  <script src="document/document.js"></script>
+  <script src="procedure/procedure.js"></script>
+  <script src="tool/graphTool.js"></script>
 </head>
 <body ng-app='app'>
 
  <ul class="nav nav-pills">
   <li class="active"><a href="#/welcome">Home</a></li>
   <li><a href="#/logs">All logs</a></li>
-  <li><a href="#">Menu 2</a></li>
-  <li><a href="#">Menu 3</a></li>
+  <li><a href="#/applyForm">Applay form</a></li>
+  <li><a href="#/deliveryFiction">Delivery fiction</a></li>
+  <li><a href="#/document">Document</a></li>
+  <li><a href="#/procedure">Procedure</a></li>
 </ul>
 
 <div ng-view></div>

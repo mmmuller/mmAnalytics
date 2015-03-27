@@ -1,0 +1,36 @@
+
+<ul class="nav nav-pills nav-stacked">
+  <li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" >View
+      <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li><a ng-click="nowVisible='TABLE'">Table</a></li>
+        <li><a ng-click="nowVisible='procedureUsages'">Procedure usage</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <div ng-show="nowVisible=='procedureUsages'">
+    <div google-chart chart="procedureUsagesGraph"
+    style="border:1px inset black;padding:0;width:400px">
+  </div>
+</div>
+
+
+<div ng-show="nowVisible=='TABLE'">
+  <button class="btn btn-default export-btn" ng-click='exportCsv($event, "test.csv");'>Export</button>
+  <button class="btn btn-default export-btn" ng-show='paginationIsEnabled()' ng-click='disablePagination();'>Disable pagination</button>
+  <button class="btn btn-default export-btn" ng-show="!paginationIsEnabled()" ng-click='enablePagination();'>Enable pagination</button>
+
+  <table ng-table="tableParams" class="table table-striped" export-csv="helper.csv">
+    <tr>
+      <th ng-repeat="column in logs.header" >{{column}}</th>
+    </tr>
+
+    <tr ng-repeat="row in $data" >
+      <td ng-repeat="column in logs.header" >{{row[column]}}</td>
+    </tr>
+  </table>
+</div>
+
+

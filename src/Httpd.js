@@ -32,26 +32,58 @@ module.exports = {
     });
 
     app.get('/logs',function(req,res){
-      connection.query("SELECT * FROM logs",function(err,rows, fields){
+      connection.query("SELECT * FROM LOGS",function(err,rows, fields){
        returnDBQuery(res, err,rows, fields);
      });
     });
 
     app.get('/logs.user.graph',function(req,res){
-      connection.query("SELECT USER_ID, count(*) as COUNT FROM logs group by USER_ID",function(err,rows, fields){
+      connection.query("SELECT USER_ID, count(*) as COUNT FROM LOGS group by USER_ID",function(err,rows, fields){
         returnDBQuery(res, err,rows, fields);
       });
     });
 
     app.get('/logs.eventType.graph',function(req,res){
-      connection.query("SELECT EVENT_TYPE, count(*) as COUNT FROM logs group by EVENT_TYPE",function(err,rows, fields){
+      connection.query("SELECT EVENT_TYPE, count(*) as COUNT FROM LOGS group by EVENT_TYPE",function(err,rows, fields){
        returnDBQuery(res, err,rows, fields);
      });
+    });
+
+    app.get('/applyForm',function(req,res){
+      connection.query("SELECT s.*, TIMESTAMPDIFF(SECOND,s.LAST_PAGE_ENTER_TIME,s.LEAVE_TIME) AS LAST_PAGE_SPENT_TIME " +
+        " FROM (SELECT @from:='2013-01-01') o, (SELECT @to:='2016-12-12') d, STATS_APPLY_FORM_VIEW s;",function(err,rows, fields){
+         returnDBQuery(res, err,rows, fields);
+       });
+    });
+
+    app.get('/deliveryFiction',function(req,res){
+      connection.query("SELECT s.* FROM (SELECT @from:='2013-01-01') o, (SELECT @to:='2016-12-12') d, STATS_DELIVERY_FICTION_VIEW s;",function(err,rows, fields){
+         returnDBQuery(res, err,rows, fields);
+       });
+    });
+
+    app.get('/document',function(req,res){
+      connection.query("SELECT s.* FROM (SELECT @from:='2013-01-01') o, (SELECT @to:='2016-12-12') d, STATS_DOCUMENT_RECEIVE_VIEW s;",function(err,rows, fields){
+         returnDBQuery(res, err,rows, fields);
+       });
+    });
+
+    app.get('/procedure',function(req,res){
+      connection.query("SELECT s.* FROM (SELECT @from:='2013-01-01') o, (SELECT @to:='2016-12-12') d, STATS_PROCEDURE_SELECTION_VIEW s;",function(err,rows, fields){
+         returnDBQuery(res, err,rows, fields);
+       });
+    });
+
+    app.get('/procedure.usages',function(req,res){
+      connection.query("SELECT UEPA_ID, count(*) FROM (SELECT @from:='2013-01-01') o, (SELECT @to:='2016-12-12') d, STATS_PROCEDURE_SELECTION_VIEW s group by UEPA_ID;",function(err,rows, fields){
+         returnDBQuery(res, err,rows, fields);
+       });
     });
 
     app.listen(mmProps.get("httpd:port"),function(){
       console.log("It's Started on PORT " + mmProps.get("httpd:port"));
     });
+
   }
 
 };

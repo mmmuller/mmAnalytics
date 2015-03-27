@@ -1,0 +1,18 @@
+
+<div ng-show="nowVisible=='TABLE'">
+  <button class="btn btn-default export-btn" ng-click='exportCsv($event, "test.csv");'>Export</button>
+  <button class="btn btn-default export-btn" ng-show='paginationIsEnabled()' ng-click='disablePagination();'>Disable pagination</button>
+  <button class="btn btn-default export-btn" ng-show="!paginationIsEnabled()" ng-click='enablePagination();'>Enable pagination</button>
+
+  <table ng-table="tableParams" class="table table-striped" export-csv="helper.csv">
+    <tr>
+      <th ng-repeat="column in logs.header" >{{column}}</th>
+    </tr>
+
+    <tr ng-repeat="row in $data" >
+      <td ng-repeat="column in logs.header" >{{row[column]}}</td>
+    </tr>
+  </table>
+</div>
+
+

@@ -2,16 +2,15 @@
 
 	mod.config(['$routeProvider', function($routeProvider) {
 		$routeProvider
-		.when('/logs', {
-			templateUrl: 'logs/logs.html',
-			controller: 'logsCtrl'
+		.when('/applyForm', {
+			templateUrl: 'applyForm/applyForm.html',
+			controller: 'applyFormCtrl'
 		});
 	}]);
 
-	mod.controller('logsCtrl', function($scope,$http,$interval,ngTableParams, ngProgress, graphTool) {
+	mod.controller('applyFormCtrl', function($scope,$http,$interval,ngTableParams, ngProgress) {
 		ngProgress.start();
 		$scope.nowVisible = 'TABLE'; //table,userLogs, typeLogs
-
 
 		var count = 10;
 		var saveCount = 0;
@@ -53,36 +52,22 @@
 			return count != 9999999;
 		}
 
-		$http.get('/logs').success(function(data){    
+		var clone = function(obj) {
+			if(obj == null || typeof(obj) != 'object')
+				return obj;    
+			var temp = new obj.constructor(); 
+			for(var key in obj)
+				temp[key] = clone(obj[key]);    
+			return temp;
+		}
+
+		$http.get('/applyForm').success(function(data){   
 			$scope.logs=data;
 			initTableData();
 			ngProgress.complete();
 		});
 
-		$http.get('/logs.user.graph').success(function(data){ 
-			var tab = [];   
-			tab.push(["Component","cost"]);
-			$scope.logsUserGraph=data;
-			angular.forEach(data.rows, function(value) {
-				tab.push([String(value[Object.keys(value)[0]]), value[Object.keys(value)[1]]])
-			});
-			$scope.userGraph = graphTool.getPieChart();
-			$scope.userGraph.data = tab;
-		});
-
-		$http.get('/logs.eventType.graph').success(function(data){ 
-			var tab = [];   
-			tab.push(["Component","cost"]);
-			$scope.logsUserGraph=data;
-			angular.forEach(data.rows, function(value) {
-				tab.push([String(value[Object.keys(value)[0]]), value[Object.keys(value)[1]]])
-			});
-			$scope.eventTypeGraph = graphTool.getPieChart();
-			$scope.eventTypeGraph.data = tab;
-
-		});
-
 
 	});
 
-})(angular.module('logs', ['ngRoute']));
+})(angular.module('applyForm', ['ngRoute']));
